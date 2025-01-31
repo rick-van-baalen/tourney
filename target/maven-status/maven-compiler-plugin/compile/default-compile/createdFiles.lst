@@ -1,0 +1,7 @@
+com\tourney\views\DashboardView.class
+com\tourney\views\UsersView.class
+com\tourney\views\FilesView.class
+com\tourney\Application.class
+com\tourney\components\Explore.class
+com\tourney\views\MainLayout.class
+com\tourney\views\ProductsView.class
