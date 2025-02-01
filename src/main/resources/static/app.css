@@ -616,7 +616,15 @@ dwc-app-layout {
     margin: 0px 0px 20px 0px;
 }
 
-/* New tournament */
-.new-tournament-button {
-    
+.tournament-container {
+    border: 1px solid #E7E7E7;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.tournament-heading {
+    margin: 0px;
 }

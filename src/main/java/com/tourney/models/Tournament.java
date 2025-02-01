@@ -1,21 +1,17 @@
 package com.tourney.models;
 
-import java.util.UUID;
-
 public class Tournament {
 
-    private String uuid;
+    private int id;
     private String name;
-    private int numberOfParticipants;
+    private Double numberOfParticipants;
 
-    public Tournament(String name, int numberOfParticipants) {
-        this.uuid = UUID.randomUUID().toString();
-        this.name = name;
-        this.numberOfParticipants = numberOfParticipants;
+    public int getId() {
+        return id;
     }
 
-    public String getId() {
-        return uuid;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -26,11 +22,11 @@ public class Tournament {
         this.name = name;
     }
 
-    public int getNumberOfParticipants() {
+    public Double getNumberOfParticipants() {
         return numberOfParticipants;
     }
 
-    public void setNumberOfParticipants(int numberOfParticipants) {
+    public void setNumberOfParticipants(Double numberOfParticipants) {
         this.numberOfParticipants = numberOfParticipants;
     }
 

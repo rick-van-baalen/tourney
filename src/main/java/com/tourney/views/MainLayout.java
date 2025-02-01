@@ -25,7 +25,7 @@ import com.webforj.router.observer.DidEnterObserver;
 @Route
 public class MainLayout extends Composite<AppLayout> implements DidEnterObserver {
 
-    private static final String DEFAULT_VIEW = "dashboard";
+    private static final String DEFAULT_VIEW = "tournaments";
     private AppLayout self = getBoundComponent();
     private TabbedPane nav = new TabbedPane();
     private H1 title = new H1();
@@ -58,7 +58,7 @@ public class MainLayout extends Composite<AppLayout> implements DidEnterObserver
         nav.setPlacement(TabbedPane.Placement.BOTTOM);
         nav.setAlignment(TabbedPane.Alignment.CENTER);
 
-        nav.addTab(new Tab("Dashboard", TablerIcon.create("dashboard")));
+        nav.addTab(new Tab("Tournaments", TablerIcon.create("tournament")));
         nav.addTab(new Tab("Settings", TablerIcon.create("settings")));
 
         self.addToFooter(nav);
@@ -87,8 +87,7 @@ public class MainLayout extends Composite<AppLayout> implements DidEnterObserver
         }
 
         for (Tab tab : nav.getTabs()) {
-            if (tab.getText().toLowerCase().equals(path)) {
-                // temporarily remove the listener to avoid history push
+            if (tab.getText().toLowerCase().contains(path)) {
                 removeSelectListener();
                 nav.select(tab);
                 setSelectListener();
@@ -105,9 +104,7 @@ public class MainLayout extends Composite<AppLayout> implements DidEnterObserver
     }
 
     private void removeSelectListener() {
-        if (registration != null) {
-            registration.remove();
-        }
+        if (registration != null) registration.remove();
     }
 
 }
