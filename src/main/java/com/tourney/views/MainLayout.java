@@ -13,6 +13,7 @@ import com.webforj.component.tabbedpane.Tab;
 import com.webforj.component.tabbedpane.TabbedPane;
 import com.webforj.component.tabbedpane.event.TabSelectEvent;
 import com.webforj.dispatcher.ListenerRegistration;
+import com.webforj.environment.ObjectTable;
 import com.webforj.router.Router;
 import com.webforj.router.annotation.FrameTitle;
 import com.webforj.router.annotation.Route;
@@ -47,6 +48,7 @@ public class MainLayout extends Composite<AppLayout> implements DidEnterObserver
 
         Toolbar toolbar = new Toolbar();
         toolbar.addToTitle(title);
+        ObjectTable.put("HEADER_TITLE", title);
 
         self.addToHeader(toolbar);
     }
@@ -66,17 +68,16 @@ public class MainLayout extends Composite<AppLayout> implements DidEnterObserver
 
     private void onNavigate(NavigateEvent ev) {
         setAppTitle(ev);
-        setSelectedTab(ev);
+        setSelectedTab(ev); 
     }
 
     private void setAppTitle(NavigateEvent ev) {
         Set<Component> components = ev.getContext().getAllComponents();
-        Component view = components.stream().filter(c -> c.getClass().getSimpleName().endsWith("View")).findFirst()
-                .orElse(null);
+        Component view = components.stream().filter(c -> c.getClass().getSimpleName().endsWith("View")).findFirst().orElse(null);
 
         if (view != null) {
             FrameTitle frameTitle = view.getClass().getAnnotation(FrameTitle.class);
-            title.setText(frameTitle != null ? frameTitle.value() : "");
+            if (frameTitle != null && !frameTitle.value().isBlank()) title.setText(frameTitle.value());
         }
     }
 
