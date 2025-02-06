@@ -656,3 +656,8 @@ dwc-app-layout {
 .tournament-heading {
     margin: 0px;
 }
+
+.tournament-tab {
+    background-color: white;
+    border-radius: 5px;
+}
