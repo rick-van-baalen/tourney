@@ -1,10 +1,10 @@
 package com.tourney.views;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import com.tourney.components.NewTournament;
 import com.tourney.models.Tournament;
+import com.tourney.services.TournamentService;
 import com.webforj.component.Composite;
 import com.webforj.component.Expanse;
 import com.webforj.component.button.Button;
@@ -31,22 +31,27 @@ public class TournamentsView extends Composite<FlexLayout> {
     private CreateTournament createTournament;
     private FlexLayout tournamentsContainer;
     private NewTournament newTournament;
+    private TournamentService tournamentService = new TournamentService();
 
     public TournamentsView() {
         self.setHeight("100%");
 
+        List<Tournament> tournaments = tournamentService.getTournaments();
+        
         createTournament = new CreateTournament();
         createTournament.onAddTournament(this::onAddTournament);
-        tournamentsContainer = new FlexLayout().setVisible(false);
+        tournamentsContainer = new FlexLayout();
         self.add(createTournament, tournamentsContainer);
+
+        createTournament.setVisible(tournaments.size() == 0);
+        tournamentsContainer.setVisible(tournaments.size() > 0);
+
+        for (Tournament tournament : tournaments) {
+            renderTournament(tournament);
+        }
     }
 
-    private void onAddTournament() {
-        createTournament.setVisible(false);
-        tournamentsContainer.setVisible(true);
-
-        Tournament tournament = newTournament.getTournament();
-
+    private void renderTournament(Tournament tournament) {
         Div tournamentContainer = new Div().addClassName("tournament-container");
         tournamentsContainer.add(tournamentContainer);
 
@@ -61,6 +66,14 @@ public class TournamentsView extends Composite<FlexLayout> {
             Router.getCurrent().navigate(TournamentView.class, ParametersBag.of("id=" + tournament.getId()));
         });
         tournamentContainer.add(tournamentTitle, participants, tournamentButton);
+    }
+
+    private void onAddTournament() {
+        createTournament.setVisible(false);
+        tournamentsContainer.setVisible(true);
+
+        Tournament tournament = newTournament.getTournament();
+        renderTournament(tournament);
     }
 
     class CreateTournament extends Composite<FlexLayout> {

@@ -4,6 +4,7 @@ import java.util.Set;
 
 import com.webforj.component.Component;
 import com.webforj.component.Composite;
+import com.webforj.component.button.Button;
 import com.webforj.component.html.elements.H1;
 import com.webforj.component.icons.TablerIcon;
 import com.webforj.component.layout.applayout.AppLayout;
@@ -30,6 +31,7 @@ public class MainLayout extends Composite<AppLayout> implements DidEnterObserver
     private AppLayout self = getBoundComponent();
     private TabbedPane nav = new TabbedPane();
     private H1 title = new H1();
+    private Button backButton;
     private ListenerRegistration<TabSelectEvent> registration;
 
     public MainLayout() {
@@ -49,6 +51,13 @@ public class MainLayout extends Composite<AppLayout> implements DidEnterObserver
         Toolbar toolbar = new Toolbar();
         toolbar.addToTitle(title);
         ObjectTable.put("HEADER_TITLE", title);
+
+        backButton = new Button(TablerIcon.create("arrow-left"));
+        backButton.onClick(e -> {
+            Router.getCurrent().navigate(TournamentsView.class);
+        });
+        backButton.setVisible(false);
+        toolbar.addToStart(backButton);
 
         self.addToHeader(toolbar);
     }
@@ -77,7 +86,14 @@ public class MainLayout extends Composite<AppLayout> implements DidEnterObserver
 
         if (view != null) {
             FrameTitle frameTitle = view.getClass().getAnnotation(FrameTitle.class);
-            if (frameTitle != null && !frameTitle.value().isBlank()) title.setText(frameTitle.value());
+            if (frameTitle != null && !frameTitle.value().isBlank()) {
+                // When there is a frame title, it is a page that is also a tab so we don't need to show the back button. There is nothing to go back to.
+                title.setText(frameTitle.value());
+                backButton.setVisible(false);
+            } else {
+                // When there is no frame title, it is a page that is not a tab so we need to show a back button to get back to the original screen.
+                backButton.setVisible(true);
+            }
         }
     }
 
