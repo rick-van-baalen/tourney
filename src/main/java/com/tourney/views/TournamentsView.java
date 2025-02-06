@@ -11,6 +11,7 @@ import com.webforj.component.button.Button;
 import com.webforj.component.html.elements.Div;
 import com.webforj.component.html.elements.H3;
 import com.webforj.component.html.elements.Img;
+import com.webforj.component.icons.TablerIcon;
 import com.webforj.component.layout.flexlayout.FlexAlignment;
 import com.webforj.component.layout.flexlayout.FlexDirection;
 import com.webforj.component.layout.flexlayout.FlexJustifyContent;
@@ -24,89 +25,100 @@ import com.webforj.router.history.ParametersBag;
 
 @Route(value = "/tournaments", outlet = MainLayout.class)
 @RouteAlias(value = "/tournaments")
-@FrameTitle("Tournaments")
+@FrameTitle("My tournaments")
 public class TournamentsView extends Composite<FlexLayout> {
 
     private FlexLayout self = getBoundComponent();
-    private CreateTournament createTournament;
-    private FlexLayout tournamentsContainer;
+    private NoTournamentsFound noTournamentsFound;
+    private Div tournamentsContainer;
     private NewTournament newTournament;
     private TournamentService tournamentService = new TournamentService();
 
     public TournamentsView() {
         self.setHeight("100%");
+    }
+
+    @Override
+    protected void onAttach() {
+        super.onAttach();
+
+        noTournamentsFound = new NoTournamentsFound();
+        tournamentsContainer = new Div().addClassName("tournaments-container");
+        self.add(noTournamentsFound, tournamentsContainer);
+
+        newTournament = new NewTournament();
+        newTournament.onAddTournament(this::onAddTournament);
+        newTournament.close();
+        self.add(newTournament);
 
         List<Tournament> tournaments = tournamentService.getTournaments();
-        
-        createTournament = new CreateTournament();
-        createTournament.onAddTournament(this::onAddTournament);
-        tournamentsContainer = new FlexLayout();
-        self.add(createTournament, tournamentsContainer);
-
-        createTournament.setVisible(tournaments.size() == 0);
+        noTournamentsFound.setVisible(tournaments.size() == 0);
         tournamentsContainer.setVisible(tournaments.size() > 0);
 
         for (Tournament tournament : tournaments) {
             renderTournament(tournament);
         }
+
+        Button newButton = new Button(TablerIcon.create("plus")).addClassName("new-tournament-button");
+        newButton.setExpanse(Expanse.XLARGE);
+        newButton.onClick(e -> {
+            newTournament.open();
+        });
+        self.add(newButton);
     }
 
     private void renderTournament(Tournament tournament) {
         Div tournamentContainer = new Div().addClassName("tournament-container");
         tournamentsContainer.add(tournamentContainer);
 
+        Div left = new Div().addClassName("tournament-container-left");
+        Div right = new Div().addClassName("tournament-container-right");
+        tournamentContainer.add(left, right);
+
         H3 tournamentTitle = new H3(tournament.getName()).addClassName("tournament-heading");
-        String numberOfParticipants = tournament.getNumberOfParticipants().toString().replace(".0", "");
-        Label participants = new Label("Participants: " + numberOfParticipants);
-        Button tournamentButton = new Button("View")
+        Label participants = new Label("Participants: " + tournament.getParticipants().size());
+        left.add(tournamentTitle, participants);
+
+        Button deleteButton = new Button(TablerIcon.create("trash"))
             .setExpanse(Expanse.LARGE)
             .addClassName("tournament-button");
-        
-        tournamentButton.onClick(e -> {
+        deleteButton.onClick(e -> {
+            
+        });
+
+        Button openButton = new Button(TablerIcon.create("arrow-right"))
+            .setExpanse(Expanse.LARGE)
+            .addClassName("tournament-button");
+        openButton.onClick(e -> {
             Router.getCurrent().navigate(TournamentView.class, ParametersBag.of("id=" + tournament.getId()));
         });
-        tournamentContainer.add(tournamentTitle, participants, tournamentButton);
+        
+        right.add(deleteButton, openButton);
     }
 
     private void onAddTournament() {
-        createTournament.setVisible(false);
+        noTournamentsFound.setVisible(false);
         tournamentsContainer.setVisible(true);
 
         Tournament tournament = newTournament.getTournament();
         renderTournament(tournament);
     }
 
-    class CreateTournament extends Composite<FlexLayout> {
+    class NoTournamentsFound extends Composite<FlexLayout> {
         private FlexLayout self = getBoundComponent();
-        private Runnable callbackFunction;
 
-        public CreateTournament() {
-            self.addClassName("create-tournament");
+        public NoTournamentsFound() {
+            self.addClassName("no-tournaments-found");
             self.setJustifyContent(FlexJustifyContent.CENTER);
             self.setDirection(FlexDirection.COLUMN);
             self.setAlignment(FlexAlignment.CENTER);
             self.setMaxWidth(600);
             self.setSpacing("20px");
 
-            Img img = new Img("ws://create-tournament.svg", "Create a new tournament").addClassName("create-tournament-image");
-            H3 heading = new H3("You don't have any tournaments.").addClassName("create-tournament-heading");
+            Img img = new Img("ws://no-tournaments-found.svg", "No tournaments found.").addClassName("no-tournaments-found-image");
+            H3 heading = new H3("You don't have any tournaments.").addClassName("no-tournaments-found-heading");
 
-            Button button = new Button("Create a new tournament").addClassName("create-tournament-button");
-            button.setExpanse(Expanse.LARGE);
-            button.onClick(e -> {
-                if (newTournament == null) {
-                    newTournament = new NewTournament();
-                    newTournament.onAddTournament(callbackFunction);
-                    self.add(newTournament);
-                }
-                newTournament.open();
-            });
-
-            self.add(img, heading, button);
-        }
-
-        public void onAddTournament(Runnable function) {
-            this.callbackFunction = function;
+            self.add(img, heading);
         }
 
         public void setVisible(Boolean visible) {

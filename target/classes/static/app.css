@@ -603,26 +603,54 @@ dwc-app-layout {
     color: var(--dwc-color-primary);
 }
 
-/* Dashboard */
-.create-tournament {
+.no-tournaments-found {
     margin: auto auto;
 }
 
-.create-tournament-image {
+.no-tournaments-found-image {
     width: 100%;
 }
 
-.create-tournament-heading {
+.no-tournaments-found-heading {
     margin: 0px 0px 20px 0px;
+}
+
+.new-tournament-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+}
+
+.tournaments-container {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+    width: 100%;
+    height: fit-content;
 }
 
 .tournament-container {
     border: 1px solid #E7E7E7;
     padding: 30px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
+}
+
+.tournament-container-left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tournament-container-right {
+    width: fit-content;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 5px;
 }
 
 .tournament-heading {

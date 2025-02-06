@@ -4,24 +4,16 @@
 
   <groupId>com.tourney</groupId>
   <artifactId>tourney</artifactId>
-  <name>My App</name>
+  <name>Tourney</name>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
-
     <webforj.version>24.21</webforj.version>
-
     <jetty.version>12.0.14</jetty.version>
-    <!--
-      Configures automatic reload of Jetty server
-      (with 1 second timeout) when new classes are compiled.
-      Should be disabled when using a live reload system, such as JRebel.
-      -->
     <jetty.scan>1</jetty.scan>
     <jetty.port>8080</jetty.port>
     <jetty.stopPort>9966</jetty.stopPort>

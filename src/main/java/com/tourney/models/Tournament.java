@@ -1,10 +1,15 @@
 package com.tourney.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Tournament {
 
     private int id;
     private String name;
-    private Double numberOfParticipants;
+    private List<Participant> participants = new ArrayList<Participant>();
+    private List<Group> groups = new ArrayList<Group>();
+    private List<Match> matches = new ArrayList<Match>();
 
     public int getId() {
         return id;
@@ -22,12 +27,8 @@ public class Tournament {
         this.name = name;
     }
 
-    public Double getNumberOfParticipants() {
-        return numberOfParticipants;
-    }
-
-    public void setNumberOfParticipants(Double numberOfParticipants) {
-        this.numberOfParticipants = numberOfParticipants;
+    public List<Participant> getParticipants() {
+        return participants;
     }
 
 }

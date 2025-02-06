@@ -6,7 +6,6 @@ import com.webforj.component.Composite;
 import com.webforj.component.Expanse;
 import com.webforj.component.button.Button;
 import com.webforj.component.dialog.Dialog;
-import com.webforj.component.field.NumberField;
 import com.webforj.component.field.TextField;
 import com.webforj.component.icons.TablerIcon;
 import com.webforj.component.layout.flexlayout.FlexAlignment;
@@ -23,6 +22,7 @@ public class NewTournament extends Composite<Dialog> {
     private Dialog self = getBoundComponent();
     private Runnable onAddTournament;
     private BindingContext<Tournament> context;
+    private TextField nameField;
     private Tournament tournament;
     private TournamentService tournamentService = new TournamentService();
 
@@ -50,23 +50,14 @@ public class NewTournament extends Composite<Dialog> {
         context = BindingContext.of(this, Tournament.class);
         tournament = new Tournament();
 
-        TextField nameField = new TextField("Tournament name").setExpanse(Expanse.LARGE);
+        nameField = new TextField("Tournament name").setExpanse(Expanse.LARGE);
 
         context.bind(nameField, "name")
             .useValidator(value -> value != null && !value.isEmpty(), "Tournament name cannot be empty.")
             .useValidator(value -> value != null && value.length() >= 4, "Tournament name must be at least 4 characters long.")
             .add();
 
-        NumberField numberOfParticipantsField = new NumberField("Number of participants")
-            .setExpanse(Expanse.LARGE)
-            .setMin(0.0)
-            .setStep(1.0);
-        
-        context.bind(numberOfParticipantsField, "numberOfParticipants")
-            .useValidator(value -> value > 0, "Number of participants must be greater than 0.")
-            .add();
-
-        body.add(nameField, numberOfParticipantsField);
+        body.add(nameField);
 
         FlexLayout footer = new FlexLayout()
             .setAlignment(FlexAlignment.CENTER)
@@ -75,7 +66,7 @@ public class NewTournament extends Composite<Dialog> {
         
         Button button = new Button("Create new tournament")
             .setExpanse(Expanse.LARGE)
-            .addClassName("new-tournament-button");
+            .addClassName("create-new-tournament-button");
         button.onClick(e -> onCreateNewTournament());
         footer.add(button);
     }
@@ -95,6 +86,10 @@ public class NewTournament extends Composite<Dialog> {
 
             // Call the callback to add the new tournament to the Tournaments UI
             onAddTournament.run();
+
+            // Reset the form.
+            tournament = new Tournament();
+            nameField.setText("");
         }
     }
 
