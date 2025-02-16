@@ -1,2 +1,16 @@
+com\tourney\views\TournamentsView.class
+com\tourney\models\Participant.class
+com\tourney\services\TournamentService$1.class
+com\tourney\views\TournamentDetails.class
+com\tourney\models\Match.class
 com\tourney\Application.class
 com\tourney\views\MainLayout.class
+com\tourney\models\Tournament.class
+com\tourney\views\TournamentView.class
+com\tourney\views\TournamentGroups.class
+com\tourney\models\Group.class
+com\tourney\views\TournamentsView$NoTournamentsFound.class
+com\tourney\services\TournamentService.class
+com\tourney\components\NewTournament.class
+com\tourney\views\TournamentParticipants.class
+com\tourney\views\TournamentMatches.class

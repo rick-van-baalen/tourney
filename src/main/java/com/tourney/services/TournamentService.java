@@ -1,43 +1,68 @@
 package com.tourney.services;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.lang.reflect.Type;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.tourney.models.Tournament;
-import com.webforj.environment.ObjectTable;
+import com.webforj.Environment;
+import com.webforj.utilities.Assets;
 
 public class TournamentService {
     
-    private int serial = 1;
+    private static final String FILE_PATH = Assets.resolveWebServerUrl("ws://db.json");
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public void add(Tournament tournament) {
-        tournament.setId(serial++);
-
+    public void addTournament(Tournament newTournament) {
         List<Tournament> tournaments = getTournaments();
-        tournaments.add(tournament);
+
+        Optional<Tournament> existingTournament = tournaments.stream()
+            .filter(t -> t.getUUID().equals(newTournament.getUUID()))
+            .findFirst();
+
+        if (existingTournament.isPresent()) {
+            tournaments.replaceAll(t -> t.getUUID().equals(newTournament.getUUID()) ? newTournament : t);
+        } else {
+            String uuid = UUID.randomUUID().toString().replace("-", "");
+            newTournament.setUUID(uuid);
+            tournaments.add(newTournament);
+        }
+
+        saveTournaments(tournaments);
     }
 
     public List<Tournament> getTournaments() {
-        List<Tournament> tournaments = null;
-        
-        if (ObjectTable.contains("TOURNAMENTS")) {
-            tournaments = (List<Tournament>) ObjectTable.get("TOURNAMENTS");
-        } else {
-            tournaments = new ArrayList<Tournament>();
-            ObjectTable.put("TOURNAMENTS", tournaments);
-        }
-
-        return tournaments;
+        Type listType = new TypeToken<List<Tournament>>() {}.getType();
+        String content = Assets.contentOf(FILE_PATH);
+        List<Tournament> tournaments = gson.fromJson(content, listType);
+        return tournaments != null ? tournaments : new ArrayList<Tournament>();
     }
 
-    public Tournament getTournament(int id) {
-        List<Tournament> tournaments = getTournaments();
+    public Tournament getTournament(String uuid) {
+        return getTournaments().stream()
+            .filter(t -> t.getUUID().equals(uuid))
+            .findFirst()
+            .orElse(null);
+    }
 
-        for (Tournament tournament : tournaments) {
-            if (tournament.getId() == id) return tournament;
+    private void saveTournaments(List<Tournament> tournaments) {
+        try {
+            File file = new File(Environment.getCurrent().getClass().getClassLoader().getResource(Assets.resolveWebServerUrl("ws://db.json")).toURI());
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
+                gson.toJson(tournaments, writer);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        return null;
     }
 
 }

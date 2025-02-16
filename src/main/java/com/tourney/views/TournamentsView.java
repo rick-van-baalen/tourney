@@ -90,7 +90,7 @@ public class TournamentsView extends Composite<FlexLayout> {
             .setExpanse(Expanse.LARGE)
             .addClassName("tournament-button");
         openButton.onClick(e -> {
-            Router.getCurrent().navigate(TournamentView.class, ParametersBag.of("id=" + tournament.getId()));
+            Router.getCurrent().navigate(TournamentView.class, ParametersBag.of("uuid=" + tournament.getUUID()));
         });
         
         right.add(deleteButton, openButton);

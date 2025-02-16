@@ -82,7 +82,7 @@ public class NewTournament extends Composite<Dialog> {
             self.close();
 
             // Add the tournament in memory.
-            tournamentService.add(tournament);
+            tournamentService.addTournament(tournament);
 
             // Call the callback to add the new tournament to the Tournaments UI
             onAddTournament.run();
