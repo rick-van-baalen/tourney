@@ -17,7 +17,7 @@ import com.webforj.router.event.DidEnterEvent;
 import com.webforj.router.history.ParametersBag;
 import com.webforj.router.observer.DidEnterObserver;
 
-@Route(value = "/tournament/:uuid<^[a-f0-9]{8}-[a-f0-9]{4}-[1-5][a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$>", outlet = MainLayout.class)
+@Route(value = "/tournament/:id", outlet = MainLayout.class)
 public class TournamentView extends Composite<FlexLayout> implements DidEnterObserver, HasFrameTitle {
     private FlexLayout self = getBoundComponent();
     private TabbedPane pane;
@@ -47,10 +47,8 @@ public class TournamentView extends Composite<FlexLayout> implements DidEnterObs
 
     @Override
     public void onDidEnter(DidEnterEvent event, ParametersBag parameters) {
-        String uuid = parameters.getAlpha("uuid").get();
-        OptionDialog.showMessageDialog("Finding ID: " + uuid);
-        tournament = tournamentService.getTournament(uuid);
-        OptionDialog.showMessageDialog("Result =" + tournament);
+        Integer id = parameters.getInt("id").get();
+        tournament = tournamentService.getTournament(id);
         if (tournament == null) {
             OptionDialog.showMessageDialog("Something went wrong while showing your tournament. Please try again.");
             return;
@@ -66,8 +64,8 @@ public class TournamentView extends Composite<FlexLayout> implements DidEnterObs
 
     @Override
     public String getFrameTitle(NavigationContext context, ParametersBag parameters) {
-        String uuid = parameters.getAlpha("uuid").get();
-        tournament = tournamentService.getTournament(uuid);
+        Integer id = parameters.getInt("id").get();
+        tournament = tournamentService.getTournament(id);
         if (tournament == null) return "Page not found";
         return tournament.getName();
     }

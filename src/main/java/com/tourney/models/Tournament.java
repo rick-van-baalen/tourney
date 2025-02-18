@@ -5,18 +5,18 @@ import java.util.List;
 
 public class Tournament {
 
-    private String uuid = "";
+    private Integer id;
     private String name;
     private List<Participant> participants = new ArrayList<Participant>();
     private List<Group> groups = new ArrayList<Group>();
     private List<Match> matches = new ArrayList<Match>();
 
-    public String getUUID() {
-        return uuid;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUUID(String uuid) {
-        this.uuid = uuid;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {

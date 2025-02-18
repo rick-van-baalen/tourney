@@ -19,6 +19,7 @@ import com.webforj.utilities.Assets;
 
 public class TournamentService {
     
+    private int serial = 2;
     private static final String FILE_PATH = Assets.resolveWebServerUrl("ws://db.json");
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -26,14 +27,13 @@ public class TournamentService {
         List<Tournament> tournaments = getTournaments();
 
         Optional<Tournament> existingTournament = tournaments.stream()
-            .filter(t -> t.getUUID().equals(newTournament.getUUID()))
+            .filter(t -> t.getId() == newTournament.getId())
             .findFirst();
 
         if (existingTournament.isPresent()) {
-            tournaments.replaceAll(t -> t.getUUID().equals(newTournament.getUUID()) ? newTournament : t);
+            tournaments.replaceAll(t -> t.getId() == newTournament.getId() ? newTournament : t);
         } else {
-            String uuid = UUID.randomUUID().toString().replace("-", "");
-            newTournament.setUUID(uuid);
+            newTournament.setId(serial++);
             tournaments.add(newTournament);
         }
 
@@ -47,9 +47,9 @@ public class TournamentService {
         return tournaments != null ? tournaments : new ArrayList<Tournament>();
     }
 
-    public Tournament getTournament(String uuid) {
+    public Tournament getTournament(Integer id) {
         return getTournaments().stream()
-            .filter(t -> t.getUUID().equals(uuid))
+            .filter(t -> t.getId() == id)
             .findFirst()
             .orElse(null);
     }
