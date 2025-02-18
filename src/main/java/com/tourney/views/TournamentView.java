@@ -31,18 +31,23 @@ public class TournamentView extends Composite<FlexLayout> implements DidEnterObs
         pane.setWidth("100%");
         pane.setHeight("100%");
         self.add(pane);
+    }
+
+    @Override
+    protected void onAttach() {
+        super.onAttach();
 
         pane.addTab(new Tab("Details", TablerIcon.create("file-description")));
-        pane.setComponentFor(0, new TournamentDetails());
+        pane.setComponentFor(0, new TournamentDetails(tournament));
 
         pane.addTab(new Tab("Participants", TablerIcon.create("users")));
-        pane.setComponentFor(1, new TournamentParticipants());
+        pane.setComponentFor(1, new TournamentParticipants(tournament));
 
         pane.addTab(new Tab("Groups", TablerIcon.create("folders")));
-        pane.setComponentFor(2, new TournamentGroups());
+        pane.setComponentFor(2, new TournamentGroups(tournament));
 
         pane.addTab(new Tab("Matches", TablerIcon.create("ladder")));
-        pane.setComponentFor(3, new TournamentMatches());
+        pane.setComponentFor(3, new TournamentMatches(tournament));
     }
 
     @Override
