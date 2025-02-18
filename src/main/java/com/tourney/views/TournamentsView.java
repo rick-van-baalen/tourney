@@ -76,7 +76,9 @@ public class TournamentsView extends Composite<FlexLayout> {
         tournamentContainer.add(left, right);
 
         H3 tournamentTitle = new H3(tournament.getName()).addClassName("tournament-heading");
-        Label participants = new Label("Participants: " + tournament.getParticipants().size());
+
+        String labelText = tournament.getParticipants().size() + " participants, " + tournament.getGroups().size() + " groups";
+        Label participants = new Label(labelText);
         left.add(tournamentTitle, participants);
 
         Button deleteButton = new Button(TablerIcon.create("trash"))

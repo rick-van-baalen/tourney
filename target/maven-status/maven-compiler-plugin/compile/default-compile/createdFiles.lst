@@ -4,10 +4,14 @@ com\tourney\services\TournamentService$1.class
 com\tourney\views\TournamentDetails.class
 com\tourney\models\Match.class
 com\tourney\Application.class
+com\tourney\components\GroupEditor$GroupSavedEvent.class
 com\tourney\views\MainLayout.class
 com\tourney\models\Tournament.class
+com\tourney\components\ParticipantEditor$ParticipantSavedEvent.class
+com\tourney\components\ParticipantEditor.class
 com\tourney\views\TournamentView.class
 com\tourney\views\TournamentGroups.class
+com\tourney\components\GroupEditor.class
 com\tourney\models\Group.class
 com\tourney\views\TournamentsView$NoTournamentsFound.class
 com\tourney\services\TournamentService.class

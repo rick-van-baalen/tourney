@@ -4,19 +4,76 @@
         "name": "Playing FIFA 2025 with the lads",
         "participants": [
             {
-                "name": "Rick van Baalen"
+                "id": 1,
+                "name": "Player 1"
             },
             {
-                "name": "John Doe"
+                "id": 2,
+                "name": "Player 2"
             },
             {
-                "name": "Bertus Deer"
+                "id": 3,
+                "name": "Player 3"
             },
             {
-                "name": "Henry the Fifth"
+                "id": 4,
+                "name": "Player 4"
+            },
+            {
+                "id": 5,
+                "name": "Player 5"
+            },
+            {
+                "id": 6,
+                "name": "Player 6"
+            },
+            {
+                "id": 7,
+                "name": "Player 7"
+            },
+            {
+                "id": 8,
+                "name": "Player 8"
             }
         ],
-        "groups": [],
+        "groups": [
+            {
+                "id": 1,
+                "name": "Group A",
+                "participants": [
+                    {
+                        "id": 1
+                    },
+                    {
+                        "id": 3
+                    },
+                    {
+                        "id": 5
+                    },
+                    {
+                        "id": 7
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "name": "Group B",
+                "participants": [
+                    {
+                        "id": 2
+                    },
+                    {
+                        "id": 4
+                    },
+                    {
+                        "id": 6
+                    },
+                    {
+                        "id": 8
+                    }
+                ]
+            }
+        ],
         "matches": []
     }
 ]

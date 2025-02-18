@@ -35,4 +35,12 @@ public class Tournament {
         this.participants = participants;
     }
 
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
+    }
+
 }

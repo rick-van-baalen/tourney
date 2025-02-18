@@ -1,22 +1,91 @@
 [
-    {
+  {
+    "id": 1,
+    "name": "Playing FIFA 2025 with the lads",
+    "participants": [
+      {
         "id": 1,
-        "name": "Playing FIFA 2025 with the lads",
+        "name": "Player 1"
+      },
+      {
+        "id": 2,
+        "name": "Player 2"
+      },
+      {
+        "id": 3,
+        "name": "Player 3"
+      },
+      {
+        "id": 4,
+        "name": "Player 4"
+      },
+      {
+        "id": 5,
+        "name": "Player 5"
+      },
+      {
+        "id": 6,
+        "name": "Player 6"
+      },
+      {
+        "id": 7,
+        "name": "Player 7"
+      },
+      {
+        "id": 8,
+        "name": "Player 8"
+      },
+      {
+        "id": 9,
+        "name": "Player 9"
+      }
+    ],
+    "groups": [
+      {
+        "id": 1,
+        "name": "Group A",
         "participants": [
-            {
-                "name": "Rick van Baalen"
-            },
-            {
-                "name": "John Doe"
-            },
-            {
-                "name": "Bertus Deer"
-            },
-            {
-                "name": "Henry the Fifth"
-            }
-        ],
-        "groups": [],
-        "matches": []
-    }
+          {
+            "id": 1,
+            "name": "Player 1"
+          },
+          {
+            "id": 3,
+            "name": "Player 3"
+          },
+          {
+            "id": 5,
+            "name": "Player 5"
+          },
+          {
+            "id": 7,
+            "name": "Player 7"
+          },
+          {
+            "id": 9,
+            "name": "Player 9"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Group B",
+        "participants": [
+          {
+            "id": 2
+          },
+          {
+            "id": 4
+          },
+          {
+            "id": 6
+          },
+          {
+            "id": 8
+          }
+        ]
+      }
+    ],
+    "matches": []
+  }
 ]
