@@ -207,6 +207,10 @@ public class TournamentService {
         }
     }
 
+    public void generateSchedule(int tournamentId) {
+        Tournament tournament = getTournament(tournamentId);
+    }
+
     private Integer getNextTournamentId() {
         Integer serial = null;
 
